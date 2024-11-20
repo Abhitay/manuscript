@@ -6,11 +6,11 @@ execute:
   echo: true
 
 book:
-  title: "YOUR PROJECT TITLE"
+  title: "Analyzing Historical Manuscripts"
   author:
-    - AUTHOR1 (UNI1)
-    - AUTHOR2 (UNI2)
-  repo-url: https://github.com/YOUR_GITHUB_ACCOUNT/REPO_NAME
+    - Abhitay Shinde (aps2249)
+    - Param Sejpal (pns2129)
+  repo-url: https://github.com/Abhitay/manuscript
   date: today
   page-footer:
     right: |
