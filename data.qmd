@@ -1,5 +1,60 @@
 # Data
 
 ## Description
+The dataset for this project integrates records from three major specialist databases: the Schoenberg Database of Manuscripts (241,000 manuscript histories, representing 195,000 unique entries), the Bibale Database (13,000 records from the Institute for Research and History of Texts, France), and the Medieval Manuscripts Catalogue from the Bodleian Libraries (12,000 records from the University of Oxford). These databases are unified into a knowledge graph leveraging ontologies like Erlangen CIDOC-CRM (events), FRBRoo (bibliographic information), and the Getty Thesaurus of Geographic Names (locations). The data was extracted using SPARQL queries on the Mapping Manuscript Migrations (MMM) knowledge graph, allowing retrieval of key attributes like manuscript IDs, locations, ownership details, and manuscript dimensions. The dataset is structured in a tabular format with columns such as place_label, former_owner_name, current_owner_name, begin, end, and collection_label. Despite its richness, the dataset poses challenges like missing values and inconsistencies in location data, which will be addressed during preprocessing. This dataset offers a unique opportunity to analyze the provenance, movement, and historical significance of manuscripts across time and space.
+
+The data is structured in tabular form with columns such as:
+- place_label: The geographic location of the manuscript.
+- former_owner_name: The manuscript’s previous owner.
+- current_owner_name: The manuscript’s current owner.
+- begin / end: Time periods indicating when ownership was recorded.
+- collection_label: Name of the collection housing the manuscript.
+- author_name: The author of the manuscript.
+- language: The language the manuscript is written in.
 
 ## Missing value analysis
+```{r}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(janitor)
+
+data <- read.csv("/Users/abhitay/Developer/Columbia_projects/EDAV/Final/untitled folder/final_extracted.csv")
+
+# Cleaning the dataset
+data <- clean_names(data)
+data <- data |>
+  mutate(across(everything(), as.character))
+data <- data |>
+  mutate(across(everything(), ~na_if(.x, "")))
+
+# Calculating the missing values
+missing_summary <- data |>
+  summarise(across(everything(), ~sum(is.na(.)))) |>
+  pivot_longer(cols = everything(), names_to = "Column", values_to = "Missing_Count") |>
+  mutate(Percentage = (Missing_Count / nrow(data)) * 100)
+
+# Bar Plot
+ggplot(missing_summary, aes(x = reorder(Column, -Percentage), y = Percentage)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  geom_text(
+    aes(label = Missing_Count), 
+    hjust = 0.6, 
+    size = 4, 
+    color = "black"
+  ) + 
+  coord_flip() +
+  labs(
+    title = "Percentage of Missing Values by Column",
+    x = "Columns",
+    y = "Percentage of Missing Values"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    axis.text.y = element_text(size = 10), 
+    plot.margin = margin(t = 10, r = 70, b = 10, l = 20)
+  )
+```
+
+The plot reveals key insights into the completeness of the dataset, with critical columns such as place_label, manuscript, end, and collection_label having no missing values, ensuring a solid foundation for analyzing manuscript locations and timelines. However, moderate gaps in former_owner_name, note, and con_label, indicate incomplete provenance records that may limit the depth of historical analysis. Manuscript attributes such as width_value, height_value, language, and author_name exhibit significant missing rates of  100%, reflecting gaps in data availability. These patterns underscore the importance of addressing missing data, either through imputation or exclusion, to maintain analytical integrity while highlighting opportunities for enhancing future data digitization and preservation efforts.
