@@ -1,16 +1,16 @@
 # Data
 
 ## Description
-The dataset for this project integrates records from three major specialist databases: the Schoenberg Database of Manuscripts (241,000 manuscript histories, representing 195,000 unique entries), the Bibale Database (13,000 records from the Institute for Research and History of Texts, France), and the Medieval Manuscripts Catalogue from the Bodleian Libraries (12,000 records from the University of Oxford). These databases are unified into a knowledge graph leveraging ontologies like Erlangen CIDOC-CRM (events), FRBRoo (bibliographic information), and the Getty Thesaurus of Geographic Names (locations). The data was extracted using SPARQL queries on the Mapping Manuscript Migrations (MMM) knowledge graph, allowing retrieval of key attributes like manuscript IDs, locations, ownership details, and manuscript dimensions. The dataset is structured in a tabular format with columns such as place_label, former_owner_name, current_owner_name, begin, end, and collection_label. Despite its richness, the dataset poses challenges like missing values and inconsistencies in location data, which will be addressed during preprocessing. This dataset offers a unique opportunity to analyze the provenance, movement, and historical significance of manuscripts across time and space.
+The dataset for this project integrates records from three major sources: the Schoenberg Database of Manuscripts (241,000 records, representing 195,000 unique manuscript histories), the Bibale Database (13,000 records curated by the Institute for Research and History of Texts, France) and the Medieval Manuscripts Catalogue from the Bodleian Libraries (12,000 records from the University of Oxford). These datasets are unified within the Mapping Manuscript Migrations (MMM) knowledge graph, which uses SPARQL queries to retrieve data on manuscript IDs, locations, ownership history and physical attributes. The knowledge graph employs ontologies like Erlangen CIDOC-CRM (events), FRBRoo (bibliographic information) and the Getty Thesaurus of Geographic Names (locations) for semantic integration. The dataset is static, in tabular format (`data.frame`) with 494,271 rows and 14 columns, including manuscript IDs, provenance data, locations, ownership timelines, physical attributes and metadata like language and author names. Key challenges include significant missing values (e.g. manuscript dimensions, author names and languages) and inconsistencies arising from varying record-keeping practices across databases. The data will be imported into `R` using the `readr` package for cleaning and analysis, leveraging tools like `dplyr` and `tidyr` for transformation.
 
-The data is structured in tabular form with columns such as:
-- place_label: The geographic location of the manuscript.
-- former_owner_name: The manuscript’s previous owner.
-- current_owner_name: The manuscript’s current owner.
-- begin / end: Time periods indicating when ownership was recorded.
-- collection_label: Name of the collection housing the manuscript.
-- author_name: The author of the manuscript.
-- language: The language the manuscript is written in.
+Sources include:
+
+1. [Schoenberg Database](https://mapping-manuscript-migrations.github.io/intro/about_sdbm) 
+
+2. [Bibale Database](https://mapping-manuscript-migrations.github.io/intro/about_bibale) 
+
+3. [Bodleian Libraries Catalogue](https://mapping-manuscript-migrations.github.io/intro/about_bod) 
+
 
 ## Missing value analysis
 ```{r}
@@ -19,7 +19,7 @@ library(dplyr)
 library(tidyr)
 library(janitor)
 
-data <- read.csv("/Users/abhitay/Developer/Columbia_projects/EDAV/Final/untitled folder/final_extracted.csv")
+data <- read.csv("/Users/param/Projects/R studio/temp/final_extracted.csv")
 
 # Cleaning the dataset
 data <- clean_names(data)
