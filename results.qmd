@@ -1,1 +1,134 @@
-# Results
+```{r}
+install.packages("maps")
+```
+
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(janitor)
+library(maps)
+library(lubridate)
+
+# Load the dataset
+
+data <- read.csv("/Users/param/Projects/R studio/mmm/final_extracted.csv")
+
+# Clean the dataset
+
+data <- clean_names(data)
+data <- data %>% mutate(across(everything(), as.character)) %>% mutate(across(everything(), ~na_if(.x, "")))
+
+# Calculate the missing values
+
+missing_summary <- data %>%
+  summarise(across(everything(), ~sum(is.na(.)))) %>%
+  pivot_longer(cols = everything(), names_to = "Column", values_to = "Missing_Count") %>%
+  mutate(Percentage = (Missing_Count / nrow(data)) * 100)
+
+# Create a bar plot of missing values
+
+ggplot(missing_summary, aes(x = reorder(Column, -Percentage), y = Percentage)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  geom_text(
+    aes(label = Missing_Count),
+    hjust = 0.6,
+    size = 4,
+    color = "black"
+  ) +
+  coord_flip() +
+  labs(
+    title = "Percentage of Missing Values by Column",
+    x = "Columns",
+    y = "Percentage of Missing Values"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    axis.text.y = element_text(size = 10),
+    plot.margin = margin(t = 10, r = 70, b = 10, l = 20)
+  )
+
+```
+# Results Section
+
+```{r}
+# Common Manuscript Languages
+if ("language" %in% colnames(data)) {
+  language_distribution <- data %>%
+    count(language) %>%
+    filter(!is.na(language)) %>%
+    arrange(desc(n))
+  
+  ggplot(language_distribution, aes(x = reorder(language, -n), y = n)) +
+    geom_bar(stat = "identity", fill = "darkgreen") +
+    labs(
+      title = "Most Common Manuscript Languages",
+      x = "Language",
+      y = "Count"
+    ) +
+    theme_minimal() +
+    theme(
+      plot.title = element_text(hjust = 0.5),
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+} else {
+  print("Language column not found in dataset")
+}
+```
+
+
+The geographic distribution visualization is visualized using a Cleveland dot plot for better clarity and readability since there are too many categories which makes use of barplot not suitable
+
+```{r}
+# Geographic Distribution
+location_distribution <- data %>%
+count(place_label) %>%
+filter(!is.na(place_label)) %>%
+arrange(desc(n))
+
+ggplot(location_distribution, aes(x = n, y = reorder(place_label, n))) +
+geom_point(color = "darkred", size = 2) +
+labs(
+title = "Manuscript Geographic Distribution",
+x = "Count",
+y = "Location"
+) +
+theme_minimal() +
+theme(
+plot.title = element_text(hjust = 0.5),
+axis.text.y = element_text(size = 8)
+)
+
+```
+
+
+```{r}
+
+# Temporal Trends
+
+# Convert relevant date columns to Date type
+data <- data %>% mutate(end = ymd(end))
+
+# Time Series Analysis
+manuscript_time_series <- data %>% 
+  filter(!is.na(end)) %>% 
+  count(end) %>% 
+  arrange(end)
+
+ggplot(manuscript_time_series, aes(x = end, y = n)) + 
+  geom_line(color = "blue") +
+  labs(
+    title = "Manuscript Collection Over Time",
+    x = "Year",
+    y = "Count"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5)
+  )
+
+
+```
+
