@@ -1,13 +1,39 @@
-# Interactive graph
+---
+title: "Interactive Manuscript Map"
+format: html
+---
 
 <style>
   * {
     font-family: sans-serif;
   }
-</style> 
+  .tooltip {
+    position: absolute;
+    background: white;
+    padding: 5px;
+    border: 1px solid lightgray;
+    border-radius: 4px;
+    pointer-events: none;
+    font-size: 12px;
+    opacity: 0;
+  }
+  #countrySelect {
+    margin-bottom: 10px;
+    font-size: 16px;
+    padding: 5px;
+  }
+</style>
 
 <div id="plot">
+  <label for="countrySelect">Select a Country:</label>
+  <select id="countrySelect">
+    <option value="All" selected>All Countries</option>
+  </select>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson@3"></script>
+
 <script src="scripts/myscript.js"></script>
+
+This interactive map, created using D3.js, visualizes the global distribution of manuscripts across cities. Each orange circle represents a city, with its size proportional to the manuscript count. Users can explore the map by zooming, panning, or filtering cities by country using a dropdown menu. Hovering over a city reveals a tooltip displaying the city's name, manuscript count, and geographic coordinates. The map is built on a Mercator projection, converting geographic data into a 2D visualization. This dynamic and engaging design helps users understand the spatial trends in manuscript collections, enabling deeper exploration of regions and patterns that would be difficult to grasp from static visuals.

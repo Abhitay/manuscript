@@ -19,7 +19,7 @@ library(dplyr)
 library(tidyr)
 library(janitor)
 
-data <- read.csv("/Users/param/Projects/R studio/temp/final_extracted.csv")
+data <- read.csv("/Users/abhitay/final_extracted.csv")
 
 # Cleaning the dataset
 data <- clean_names(data)
