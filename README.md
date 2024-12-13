@@ -7,7 +7,7 @@ Welcome to the Manuscript Exploration project! This repository delves into the f
 ## 📑 Table of Contents
 1. Overview
 2. Features]
-3. Technologies Used[
+3. Technologies Used
 4. Insights]
 5. Challenges and Limitations
 6. Future Directions
