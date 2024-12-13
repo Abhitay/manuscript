@@ -114,23 +114,29 @@ count(place_label) |>
 filter(!is.na(place_label)) |>
 arrange(desc(n))
 
-ggplot(location_distribution, aes(x = n, y = reorder(place_label, n))) +
-geom_point(color = "darkred", size = 2) +
-labs(
-title = "Manuscript Geographic Distribution",
-x = "Count",
-y = "Location"
-) +
-theme_minimal() +
-theme(
-plot.title = element_text(hjust = 0.5),
-axis.text.y = element_text(size = 8)
-)
+top_location_distribution <- location_distribution |>
+  slice_max(n, n = 30)
+
+ggplot(top_location_distribution, aes(x = n, y = reorder(place_label, n))) +
+  geom_point(color = "darkred", size = 3) + 
+
+  labs(
+    title = "Top 30 Manuscript Geographic Distributions",
+    x = "Count",
+    y = "Location"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14), 
+    axis.text.y = element_text(size = 10), 
+    axis.title = element_text(size = 12), 
+    plot.margin = margin(t = 10, r = 50, b = 10, l = 10)
+  ) +
+  xlim(0, max(top_location_distribution$n) * 1.2)
 
 ```
 
-The Cleveland dot plot reveals a highly uneven distribution of manuscripts across locations, with a few major hubs like London and other prominent cities showing significantly higher counts, while the majority of locations have few or no manuscripts, indicating a long tail distribution and underrepresentation. Locations with the highest counts likely serve as key centers for manuscript collection, curation, or digitization, while the clustering of most locations near zero highlights potential biases in data collection or historical disparities, such as wealthier regions having more resources for preservation. The lack of mid-range clustering suggests concentration in either high-volume hubs or sparsely represented areas. 
-The Cleveland dot plot is an effective choice for visualizing this distribution, as it avoids the clutter that would result from using a bar plot given the numerous categories.
+The visualization  highlights the centralization of manuscript collections in a few key locations, with London and Leyden leading significantly, followed by Paris and the United States, reflecting their historical importance and institutional focus on manuscript preservation. The sharp drop in counts after the top locations emphasizes the dominance of a few hubs, while the presence of U.S. cities like New York and Boston points to modern collection and digitization efforts. European cities such as Florence, Munich, Oxford, and Cambridge underscore their cultural and historical prominence during the medieval and Renaissance periods. The long-tail distribution reveals many locations with relatively small manuscript counts, indicating underrepresentation in preservation and cataloging efforts. The use of dark red dots effectively visualizes the distribution, while careful scaling and inclusion of the top 30 locations provide a clear and balanced view of major contributors and broader geographic representation.
 
 ## Historical Trends in Manuscript Preservation
 
@@ -325,25 +331,25 @@ The heatmap of manuscript locations by counts illustrates the geographic distrib
 library(ggplot2)
 library(dplyr)
 
-data <- data %>%
+data <- data |>
   mutate(end = as.Date(end, format = "%Y-%m-%d"))
 
-data <- data %>%
+data <- data |>
   mutate(year = as.numeric(format(end, "%Y")),
          century = floor((year - 1) / 100) + 1)
 
-heatmap_data <- data %>%
-  count(place_label, century) %>%
+heatmap_data <- data |>
+  count(place_label, century) |>
   filter(!is.na(place_label) & !is.na(century))
 
-top_locations <- heatmap_data %>%
-  group_by(place_label) %>%
-  summarise(total_count = sum(n)) %>%
-  arrange(desc(total_count)) %>%
-  slice_head(n = 20) %>%
+top_locations <- heatmap_data |>
+  group_by(place_label) |>
+  summarise(total_count = sum(n)) |>
+  arrange(desc(total_count)) |>
+  slice_head(n = 20) |>
   pull(place_label)
 
-heatmap_data <- heatmap_data %>%
+heatmap_data <- heatmap_data |>
   filter(place_label %in% top_locations)
 
 ggplot(heatmap_data, aes(x = century, y = reorder(place_label, -n), fill = n)) +
