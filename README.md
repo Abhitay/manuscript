@@ -8,7 +8,7 @@ Welcome to the Manuscript Exploration project! This repository delves into the f
 1. Overview
 2. Features]
 3. Technologies Used
-4. Insights]
+4. Insights
 5. Challenges and Limitations
 6. Future Directions
 ---
@@ -57,20 +57,20 @@ This project analyzes a dataset of historical manuscripts, enriched with geospat
 ---
 ## 📌 Insights
 1. Manuscript Production:
-	•	Significant peaks during the medieval period (9th–15th centuries).
-	•	Decline in production after the 15th century due to the printing press.
+- Significant peaks during the medieval period (9th–15th centuries).
+- Decline in production after the 15th century due to the printing press.
 2. Geographic Trends:
-	•	Europe, especially London, Paris, and Leyden, dominates manuscript holdings.
-	•	Emerging hubs in North America reflect modern cataloging efforts.
+- Europe, especially London, Paris, and Leyden, dominates manuscript holdings.
+- Emerging hubs in North America reflect modern cataloging efforts.
 3. Material Evolution:
-	•	Transition from parchment to paper starting in the 13th century.
+- Transition from parchment to paper starting in the 13th century.
 4. Collection Patterns:
-	•	The “Phillipps Manuscripts” collection is notably prominent, along with other institutional collections.
+- The “Phillipps Manuscripts” collection is notably prominent, along with other institutional collections.
 
 ## ⚠️ Challenges and Limitations
-•	Data Gaps: High missing rates in certain columns like material type and dimensions.
-•	Geographic Bias: Overrepresentation of Western manuscripts.
-•	Geocoding Limitations: Challenges in resolving ambiguous or historical place names.
+- Data Gaps: High missing rates in certain columns like material type and dimensions.
+- Geographic Bias: Overrepresentation of Western manuscripts.
+- Geocoding Limitations: Challenges in resolving ambiguous or historical place names.
 
  ## 🔮 Future Directions
 1. Dataset Expansion: Include non-Western manuscripts for global representation.
