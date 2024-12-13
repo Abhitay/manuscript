@@ -5,12 +5,12 @@ Welcome to the Manuscript Exploration project! This repository delves into the f
 ---
 
 ## 📑 Table of Contents
-1. [Overview](##overview)
-2. [Features](#features)
-3. [Technologies Used](#technologies-used)
-4. [Insights](#insights)
-5. [Challenges and Limitations](#challenges-and-limitations)
-6. [Future Directions](#future-directions)
+1. Overview
+2. Features]
+3. Technologies Used[
+4. Insights]
+5. Challenges and Limitations
+6. Future Directions
 ---
 
 ## 📖 Overview
